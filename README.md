@@ -113,7 +113,7 @@ docker build -t my_progect .
 19. Проведите тест nginx командой nginx -t:
 
 ```bash
-docker run -ti -p 80:80 test
+docker run -ti -p 80:80 my_progect
 ```
 
 20. Определите порт подключения:
