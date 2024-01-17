@@ -5,7 +5,7 @@
 1. Выберите базовый образ:
 
 ```Dockerfile
-FROM nginx:latest
+FROM alpine:latest
 ```
 
 2. Обновление apt-кеша:
@@ -143,22 +143,14 @@ docker run -ti -p 80:80 my_progect
 24. Выполните оптимизацию образа за счет применения легковесного базового образа, уменьшения количества слоев и др.:
 
 ```Dockerfile
-FROM nginx:latest
-
-RUN apt-get update && \
-    apt-get install -y nginx && \
-    rm -rf /var/lib/apt/lists/*
-
-COPY index.html /var/www/my_project/
-COPY img.jpg /var/www/my_project/img/
-
-RUN chown -R nginx:nginx /var/www/my_project
-
-USER nginx
-
+FROM alpine:latest
+WORKDIR /run/nginx
+RUN apk add --no-cache nginx
+RUN chown -R nginx:nginx /var/lib/nginx
+COPY unik_static/default.conf /etc/nginx/http.d
+COPY unik_static/index.html /var/lib/nginx/html
 EXPOSE 80
-
-CMD ["nginx", "-g", "daemon on;"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
 ```
 
 25. Выполните правильную постановку тега и загрузите ваш контейнер в docker hub:
