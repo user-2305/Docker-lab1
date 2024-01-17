@@ -1,16 +1,8 @@
-FROM nginx:latest
-
-RUN apt-get update && \
-    apt-get install -y nginx && \
-    rm -rf /var/lib/apt/lists/*
-
-COPY index.html /var/www/my_project/
-COPY img.jpg /var/www/my_project/img/
-
-RUN chown -R nginx:nginx /var/www/my_project
-
-USER nginx
-
+FROM alpine:latest
+WORKDIR /run/nginx
+RUN apk add --no-cache nginx
+RUN chown -R nginx:nginx /var/lib/nginx
+COPY default.conf /etc/nginx/http.d
+COPY index.html /var/lib/nginx/html
 EXPOSE 80
-
-CMD ["nginx", "-g", "daemon on;"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
