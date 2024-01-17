@@ -158,5 +158,5 @@ ENTRYPOINT ["nginx", "-g", "daemon off;"]
 ```bash
 docker tag test user2305/test
 docker login
-docker push user2305/my_progect
+docker push user2305/test
 ```
